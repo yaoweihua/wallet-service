@@ -64,6 +64,7 @@ wallet-service/
 ├── go.mod                 # Go modules configuration
 ├── go.sum                 # Go modules checksum file
 └── Readme.md              # Project README file
+```
 
 ## Features
 This wallet service implements the following basic features:
@@ -296,6 +297,7 @@ go test ./... -race -cover
         github.com/yaoweihua/wallet-service/repository  coverage: 83.3% of statements
         github.com/yaoweihua/wallet-service/service coverage: 77.6% of statements
    ```
+```
 
 ## Mock Testing
 The project uses mock testing to simulate database and Redis operations, ensuring that the tests do not rely on external services. This helps in creating isolated tests that focus on the business logic without the need for actual database or Redis connections.
