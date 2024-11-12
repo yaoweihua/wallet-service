@@ -1,6 +1,6 @@
 # Wallet Service
 
-A simple wallet service API that supports user account management, balance query, deposits, withdrawals, and transfers. This project is written in Go and uses PostgreSQL and Redis for data storage and caching. It provides RESTful API interfaces along with tests and CI configuration.
+A simple wallet service API that supports user account management, balance query, deposits, withdrawals, and transfers. This project is written in Go and uses PostgreSQL and Redis for data storage and caching. It provides RESTful API interfaces along with tests.
 
 ## Table of Contents
 - [Project Structure](#project-structure)
@@ -16,7 +16,6 @@ A simple wallet service API that supports user account management, balance query
   - [Run Tests](#run-tests)
   - [Mock Testing](#mock-testing)
 - [TODO](#todo)
-- [Contributing](#contributing)
 - [License](#license)
 
 ## Project Structure
@@ -79,8 +78,7 @@ This wallet service implements the following basic features:
 - **Go**: Server-side development language.
 - **PostgreSQL**: Main database for storing user accounts and transaction records.
 - **Redis**: Used to cache user balances to speed up read operations.
-- **Docker**: For containerizing the service.
-- **GitHub Actions**: CI/CD pipeline for automatic testing and deployment.
+- **Docker-Compose**: For containerizing the service.
 
 ## Installation & Running
 
@@ -114,7 +112,7 @@ This wallet service implements the following basic features:
 4. When the Postgres container starts, it will automatically execute db/init.sql to create the users and transactions tables, and insert some sample data. The contents are as follows:
 
     ```
-        -- init.sql
+    -- init.sql
 
     CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
@@ -291,13 +289,13 @@ To run the tests, execute the following command in the root directory:
 
 ```bash
 go test ./... -race -cover
+```
 
-   ```
+    ```
     Currently, unit tests are primarily focused on the service and repository layers:
         github.com/yaoweihua/wallet-service/repository  coverage: 83.3% of statements
         github.com/yaoweihua/wallet-service/service coverage: 77.6% of statements
-   ```
-```
+    ```
 
 ## Mock Testing
 The project uses mock testing to simulate database and Redis operations, ensuring that the tests do not rely on external services. This helps in creating isolated tests that focus on the business logic without the need for actual database or Redis connections.
@@ -307,15 +305,6 @@ The project uses mock testing to simulate database and Redis operations, ensurin
 - The database reserves fields such as user status, transaction status, transaction fees, and payment method, which can be expanded later based on business requirements.
 - For user transaction history, the search functionality may need to be enhanced in the future, depending on business needs.
 
-## Contributing
-
-We welcome suggestions or contributions to this project. Here’s how you can contribute:
-
-1. Fork the repository
-2. Create a new branch (`git checkout -b feature-xxx`)
-3. Commit your changes (`git commit -am 'Add feature xxx'`)
-4. Push to your branch (`git push origin feature-xxx`)
-5. Create a pull request
 
 ## License
 This project is licensed under the MIT License. See the LICENSE file for more details.
