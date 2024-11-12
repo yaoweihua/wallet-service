@@ -1,0 +1,28 @@
+linters:
+  enable:
+    - revive
+    - govet
+    - errcheck
+    - gocyclo
+    - misspell
+    - staticcheck
+    - unparam
+    - unused
+    - whitespace
+  disable:
+    - depguard
+
+run:
+  tests: true
+
+issues:
+  exclude-use-default: false
+  max-issues-per-linter: 0
+
+linters-settings:
+  revive:
+    min-confidence: 0.8
+  gocyclo:
+    min-complexity: 10
+  errcheck:
+    check-type-assertions: true

@@ -1,0 +1,17 @@
+# Ignore PostgreSQL data directory
+postgres_data/
+
+# Go module files
+/vendor/
+/node_modules/
+
+# Ignore logs directory
+logs/
+
+# Ignore wallet binary files (e.g., if the binary is named wallet, or any binary files)
+wallet
+*.out
+
+# Ignore OS-specific files (optional)
+.DS_Store
+Thumbs.db
