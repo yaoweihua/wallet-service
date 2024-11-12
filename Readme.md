@@ -67,7 +67,6 @@ wallet-service/
 
 ## Features
 This wallet service implements the following basic features:
-- **User registration and account management**: Allows users to create accounts and manage their profiles.
 - **Deposit functionality**: Users can deposit money into their wallets.
 - **Withdrawal functionality**: Users can withdraw money from their wallets.
 - **Balance query**: Users can check their current wallet balance.
@@ -175,7 +174,7 @@ The base route for the API is `/api/v1`. Here are some of the main API routes:
 ### Example Requests
 
 **Deposit**
-- Request: http://localhost:8080/v1/wallet/deposit
+- Request:  http://localhost:8080/v1/wallet/deposit
     ```json
     {
         "user_id": 1,
@@ -192,7 +191,7 @@ The base route for the API is `/api/v1`. Here are some of the main API routes:
     ```
 
 **Withdraw**
-- Request: http://localhost:8080/v1/wallet/withdraw
+- Request:  http://localhost:8080/v1/wallet/withdraw
     ```json
     {
         "user_id": 1,
@@ -209,7 +208,7 @@ The base route for the API is `/api/v1`. Here are some of the main API routes:
     ```
 
 **Transfer**
-- Request: http://localhost:8080/v1/wallet/transfer
+- Request:  http://localhost:8080/v1/wallet/transfer
     ```json
     {
         "user_id": 1,
@@ -226,7 +225,7 @@ The base route for the API is `/api/v1`. Here are some of the main API routes:
     ```
 
 **Balance Query**
-- Request: http://localhost:8080/v1/wallet/1/balance
+- Request:  http://localhost:8080/v1/wallet/1/balance
 
 - Response:
     ```json
@@ -241,7 +240,7 @@ The base route for the API is `/api/v1`. Here are some of the main API routes:
     ```
 
 **Get transaction records**
-- Request: http://localhost:8080/v1/wallet/1/transactions
+- Request:  http://localhost:8080/v1/wallet/1/transactions
 
 - Response:
     ```json
