@@ -1,0 +1,29 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_USER: user
+      POSTGRES_DB: wallet
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - wallet_network
+
+  redis:
+    image: redis:latest
+    environment:
+      - REDIS_PASSWORD=mysecretpassword
+    ports:
+      - "6379:6379"
+    networks:
+      - wallet_network
+
+networks:
+  wallet_network:
+    driver: bridge
