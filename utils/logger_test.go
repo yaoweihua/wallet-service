@@ -27,7 +27,7 @@ func TestNewLogger(t *testing.T) {
     mockHook := &MockHook{}
     
     // 创建一个新的 logger 实例并添加 hook
-    logger := NewLogger("test.log")
+    logger := NewLogger("../logs/test.log")
     logger.AddHook(mockHook)
 
     // 使用 logger 记录日志
