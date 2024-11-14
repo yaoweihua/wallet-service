@@ -30,6 +30,8 @@ wallet-service/
 │   ├── init.sql           # Database schema setup
 │   ├── postgres.go       # PostgreSQL connection setup
 │   └── redis.go          # Redis connection setup
+├── e2e/                    # Database connection and initialization
+│   ├── wallet_api_test.go  # E2E tests, testing the main scenarios and edge cases.
 ├── handler/               # API route handlers
 │   ├── deposit.go         # Deposit request handler
 │   ├── get_balance.go     # Get balance request handler
@@ -124,12 +126,12 @@ This wallet service implements the following basic features:
         status VARCHAR(20) NOT NULL CHECK (status IN ('active', 'inactive', 'suspended'))
     );
 
-    INSERT INTO users (name, email, phone, balance, status) 
-    VALUES ('Alice', 'alice@example.com', '13300000001', 10.05, 'active');
-    INSERT INTO users (name, email, phone, balance, status) 
-    VALUES ('Bob', 'bob@example.com', '13300000002', 50.35, 'active');
-    INSERT INTO users (name, email, phone, balance, status) 
-    VALUES ('John', 'john@example.com', '13300000003', 70.05, 'active');
+    INSERT INTO users (id, name, email, phone, balance, status) 
+    VALUES (1, 'Alice', 'alice@example.com', '13300000001', 10.05, 'active');
+    INSERT INTO users (id, name, email, phone, balance, status) 
+    VALUES (2, 'Bob', 'bob@example.com', '13300000002', 50.35, 'active');
+    INSERT INTO users (id, name, email, phone, balance, status) 
+    VALUES (3, 'John', 'john@example.com', '13300000003', 70.55, 'active');
 
     CREATE TABLE IF NOT EXISTS transactions (
         id SERIAL PRIMARY KEY,
@@ -293,8 +295,9 @@ go test ./... -race -cover
 
     ```
     Currently, unit tests are primarily focused on the service and repository layers:
-        github.com/yaoweihua/wallet-service/repository  coverage: 83.3% of statements
-        github.com/yaoweihua/wallet-service/service coverage: 77.6% of statements
+        github.com/yaoweihua/wallet-service/repository  1.856s  coverage: 82.4% of statements
+        github.com/yaoweihua/wallet-service/service 2.644s  coverage: 81.0% of statements
+        github.com/yaoweihua/wallet-service/utils   2.212s  coverage: 92.3% of statements
     ```
 
 ## Mock Testing
