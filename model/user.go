@@ -1,5 +1,5 @@
-// User represents an individual user in the wallet system, holding details
-// such as balance, status, and contact information.
+// Package model contains the data structures and functions related to users in the wallet system.
+// It includes the User struct and methods for managing user-related operations such as balance, status, and contact information.
 package model
 
 import (
@@ -7,6 +7,8 @@ import (
     "github.com/shopspring/decimal"
 )
 
+// User represents a system user with personal details such as name, email, phone, balance, and account status.
+// It also contains timestamps for creation and last update.
 type User struct {
     ID        int             `json:"id" db:"id"`                   // User ID
     Name      string          `json:"name" db:"name"`               // User name

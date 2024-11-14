@@ -8,22 +8,31 @@ import (
     "github.com/yaoweihua/wallet-service/model"
 )
 
+// TransactionHandler handles HTTP requests related to transactions.
+// It interacts with the TransactionService to perform operations such as retrieving, creating, and managing transactions.
 type TransactionHandler struct {
     transactionService *service.TransactionService
 }
 
+// NewTransactionHandler creates a new instance of TransactionHandler with the provided TransactionService.
+// This handler is responsible for handling transaction-related requests and interacting with the transaction service.
 func NewTransactionHandler(transactionService *service.TransactionService) *TransactionHandler {
     return &TransactionHandler{
         transactionService: transactionService,
     }
 }
 
+// TransactionsResponse represents the structure of the response that contains a user's transaction records.
+// It includes the user ID and a list of transactions associated with that user.
 type TransactionsResponse struct {
-    UserId       int     `json:"user_id"`
+    UserID       int     `json:"user_id"`
     Transactions []model.Transaction `json:"transactions"`
 }
 
-// GetTransactionsHandler retrieves the transaction records of a specified user
+// HandleGetTransactions handles the HTTP request to retrieve a user's transaction records.
+// It extracts the user ID from the URL parameters, retrieves the transactions from the service layer,
+// and sends the response back to the client. If there is an error or no transactions are found,
+// it returns an appropriate error message or an empty transaction list.
 func (h *TransactionHandler) HandleGetTransactions(c *gin.Context) {
     // Retrieve the userID from the URL parameters
     userIDStr := c.Param("user_id")
@@ -45,7 +54,7 @@ func (h *TransactionHandler) HandleGetTransactions(c *gin.Context) {
     }
 
     data := TransactionsResponse{
-        UserId:  userID,
+        UserID:  userID,
         Transactions: transactions,
     }
 

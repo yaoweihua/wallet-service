@@ -15,11 +15,11 @@ func TestDepositService_Deposit_Success(t *testing.T) {
     // Create a mock DB
     db, mock, err := sqlmock.New()
     require.NoError(t, err)
-    defer db.Close()
+    defer db.Close() // nolint:errcheck
 
     // Create a mock Redis client
     redisClient, mockRedis := redismock.NewClientMock()
-    defer redisClient.Close()
+    defer redisClient.Close() // nolint:errcheck
 
     // Set expectations for Redis operations
     mockRedis.ExpectSet("balance:1", "150", time.Second*3600).SetVal("")
@@ -62,10 +62,10 @@ func TestDepositService_Deposit_Success(t *testing.T) {
 func TestDepositService_Deposit_InvalidAmount(t *testing.T) {
     db, mock, err := sqlmock.New()
     require.NoError(t, err)
-    defer db.Close()
+    defer db.Close() // nolint:errcheck
 
     redisClient, mockRedis := redismock.NewClientMock()
-    defer redisClient.Close()
+    defer redisClient.Close() // nolint:errcheck
 
     // Create an instance of the wallet deposit service and pass in the mock Redis client
     depositService := NewDepositService(sqlx.NewDb(db, "sqlmock"), redisClient)
@@ -83,7 +83,7 @@ func TestDepositService_Deposit_InvalidAmount(t *testing.T) {
 
             // Verify whether an error has been returned
             require.Error(t, err)
-            require.Equal(t, "deposit amount must be greater than zero", err.Error())
+            require.Equal(t, "Deposit amount must be greater than zero", err.Error())
 
             // Check whether the database expectations have not been triggered
             err = mock.ExpectationsWereMet()

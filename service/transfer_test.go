@@ -14,10 +14,10 @@ import (
 func TestTransferService_Transfer_Success(t *testing.T) {
     db, mock, err := sqlmock.New()
     require.NoError(t, err)
-    defer db.Close()
+    defer db.Close() // nolint:errcheck
 
     redisClient, mockRedis := redismock.NewClientMock()
-    defer redisClient.Close()
+    defer redisClient.Close() // nolint:errcheck
 
     // Set the expectations for the Redis update operation: update the balances of the two users
     mockRedis.ExpectSet("balance:1", "100", time.Second*3600).SetVal("")
@@ -71,10 +71,10 @@ func TestTransferService_Transfer_Success(t *testing.T) {
 func TestTransferService_Transfer_InsufficientBalance(t *testing.T) {
     db, mock, err := sqlmock.New()
     require.NoError(t, err)
-    defer db.Close()
+    defer db.Close() // nolint:errcheck
 
     redisClient, mockRedis := redismock.NewClientMock()
-    defer redisClient.Close()
+    defer redisClient.Close() // nolint:errcheck
 
     // 创建 TransferService 实例，传入 mock DB 和 mock Redis 客户端
     transferService := NewTransferService(sqlx.NewDb(db, "sqlmock"), redisClient)
@@ -87,12 +87,17 @@ func TestTransferService_Transfer_InsufficientBalance(t *testing.T) {
         WithArgs(1).
         WillReturnRows(sqlmock.NewRows([]string{"id", "balance"}).AddRow(1, decimal.NewFromInt(30)))
 
+    // The expectation of inserting a transaction record
+    // mock.ExpectExec("INSERT INTO transactions").
+    //     WithArgs(1, 2, decimal.NewFromInt(100), "transfer", "failed", decimal.NewFromFloat(0.0), "credit_card").
+    //     WillReturnResult(sqlmock.NewResult(1, 1))
+
     // Call the transfer method (with insufficient balance for transfer)
     err = transferService.Transfer(1, 2, decimal.NewFromInt(100))
 
     // Verify the returned error message
     require.Error(t, err)
-    require.Equal(t, "insufficient balance for transfer", err.Error())
+    require.Equal(t, "Insufficient balance", err.Error())
 
     // Ensure that no database operations have been carried out (no balance updates or transaction record insertions)
     err = mock.ExpectationsWereMet()
@@ -107,10 +112,10 @@ func TestTransferService_Transfer_InsufficientBalance(t *testing.T) {
 func TestTransferService_Transfer_ToSameUser(t *testing.T) {
     db, mock, err := sqlmock.New()
     require.NoError(t, err)
-    defer db.Close()
+    defer db.Close() // nolint:errcheck
 
     redisClient, mockRedis := redismock.NewClientMock()
-    defer redisClient.Close()
+    defer redisClient.Close() // nolint:errcheck
 
     // Create an instance of TransferService, passing in the mock DB and mock Redis client
     transferService := NewTransferService(sqlx.NewDb(db, "sqlmock"), redisClient)
@@ -134,10 +139,10 @@ func TestTransferService_Transfer_ToSameUser(t *testing.T) {
 func TestTransferService_Transfer_InvalidAmount(t *testing.T) {
     db, mock, err := sqlmock.New()
     require.NoError(t, err)
-    defer db.Close()
+    defer db.Close() // nolint:errcheck
 
     redisClient, mockRedis := redismock.NewClientMock()
-    defer redisClient.Close()
+    defer redisClient.Close() // nolint:errcheck
 
     transferService := NewTransferService(sqlx.NewDb(db, "sqlmock"), redisClient)
 
@@ -150,11 +155,11 @@ func TestTransferService_Transfer_InvalidAmount(t *testing.T) {
     for _, amount := range invalidAmounts {
         t.Run(fmt.Sprintf("transfer amount: %s", amount.String()), func(t *testing.T) {
             // Call the transfer method
-            err := transferService.Transfer(1, 2, amount)
+            err := transferService.Transfer(2, 1, amount)
 
             // Verify whether an error has been returned
             require.Error(t, err)
-            require.Equal(t, "transfer amount must be greater than zero", err.Error())
+            require.Equal(t, "Transfer amount must be greater than zero", err.Error())
 
             // Check whether the database expectations have not been triggered
             err = mock.ExpectationsWereMet()

@@ -13,21 +13,23 @@ import (
     "github.com/sirupsen/logrus"
 )
 
-// The TransactionRepository provides database operations related to transactions
+// TransactionRepository provides database operations related to transactions
 type TransactionRepository struct {
     DB     *sqlx.DB
-    Logger *logrus.Logger // 使用 logrus.Logger 类型
+    Logger *logrus.Logger
 }
 
-// The NewTransactionRepository creates a new instance of TransactionRepository
+// NewTransactionRepository creates a new instance of TransactionRepository
 func NewTransactionRepository(DB *sqlx.DB) *TransactionRepository {
-    logger := utils.GetLogger() // 获取 logrus.Logger 实例
+    logger := utils.GetLogger()
     return &TransactionRepository{
         DB:     DB,
         Logger: logger,
     }
 }
 
+// RecordTransaction records a new transaction in the database.
+// It stores the details of the transaction including the sender, receiver, amount, type, and status.
 func (r *TransactionRepository) RecordTransaction(ctx context.Context, tx *sqlx.Tx, fromUserID, toUserID int, amount decimal.Decimal, txType string, txStatus string) error {
     transactionFee := decimal.NewFromFloat(0.0)  // Assume that the transaction handling fee is a fixed value, and it can also be modified according to the actual business
     paymentMethod := "credit_card"  // Assume that the payment method is a fixed value and can also be modified
@@ -44,7 +46,7 @@ func (r *TransactionRepository) RecordTransaction(ctx context.Context, tx *sqlx.
         return fmt.Errorf("failed to record transaction for user %d to user %d: %w", fromUserID, toUserID, err)
     }
 
-    r.Logger.Info(fmt.Sprintf("Recorded transaction from user %d to user %d, amount: %s, type: %s", fromUserID, toUserID, amount.String(), txType))
+    //r.Logger.Info(fmt.Sprintf("Recorded transaction from user %d to user %d, amount: %s, type: %s", fromUserID, toUserID, amount.String(), txType))
     return nil
 }
 

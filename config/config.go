@@ -21,7 +21,7 @@ func LoadConfig() *Config {
     }
 }
 
-// LLoadRedisConfig loads the Redis configuration.
+// LoadRedisConfig loads the Redis configuration.
 func LoadRedisConfig() *Config {
     return &Config{
         RedisAddr:     getEnv("REDIS_ADDR", "localhost:6379"),

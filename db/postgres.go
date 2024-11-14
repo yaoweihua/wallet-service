@@ -6,6 +6,8 @@ package db
 
 import (
     "github.com/jmoiron/sqlx"
+
+    // Import the pq driver for PostgreSQL initialization.
     _ "github.com/lib/pq"
     "github.com/yaoweihua/wallet-service/config"
     "time"

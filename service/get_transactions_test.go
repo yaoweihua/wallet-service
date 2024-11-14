@@ -14,7 +14,7 @@ import (
 func TestTransactionService_GetTransactions(t *testing.T) {
     db, mock, err := sqlmock.New()
     require.NoError(t, err)
-    defer db.Close()
+    defer db.Close() // nolint:errcheck
 
     sqlxDB := sqlx.NewDb(db, "sqlmock")
 
@@ -70,7 +70,7 @@ func TestTransactionService_GetTransactions(t *testing.T) {
 func TestTransactionService_GetTransactions_Error(t *testing.T) {
     db, mock, err := sqlmock.New()
     require.NoError(t, err)
-    defer db.Close()
+    defer db.Close() // nolint:errcheck
 
     sqlxDB := sqlx.NewDb(db, "sqlmock")
 

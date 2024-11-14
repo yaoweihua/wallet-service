@@ -15,10 +15,10 @@ import (
 func TestBalanceService_GetBalance_CacheMiss(t *testing.T) {
     db, mock, err := sqlmock.New()
     require.NoError(t, err)
-    defer db.Close()
+    defer db.Close() // nolint:errcheck
 
     redisClient, mockRedis := redismock.NewClientMock()
-    defer redisClient.Close()
+    defer redisClient.Close() // nolint:errcheck
 
     // Set the expectation for the Redis GET operation: Return redis.Nil when the cache is not hit
     mockRedis.ExpectGet("balance:1").SetErr(redis.Nil)
@@ -52,10 +52,10 @@ func TestBalanceService_GetBalance_CacheMiss(t *testing.T) {
 func TestBalanceService_GetBalance_CacheHit(t *testing.T) {
     db, _, err := sqlmock.New()
     require.NoError(t, err)
-    defer db.Close()
+    defer db.Close() // nolint:errcheck
 
     redisClient, mockRedis := redismock.NewClientMock()
-    defer redisClient.Close()
+    defer redisClient.Close() // nolint:errcheck
 
     mockRedis.ExpectGet("balance:1").SetVal("100")
 

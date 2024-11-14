@@ -24,7 +24,7 @@ func NewTestLogger() *logrus.Logger {
 func TestGetUserBalance(t *testing.T) {
     db, mock, err := sqlmock.New()
     require.NoError(t, err)
-    defer db.Close()
+    defer db.Close() // nolint:errcheck
 
     logger := NewTestLogger()
 
@@ -58,7 +58,7 @@ func TestGetUserBalance(t *testing.T) {
 func TestGetUserBalanceNoFound(t *testing.T) {
     db, mock, err := sqlmock.New()
     require.NoError(t, err)
-    defer db.Close()
+    defer db.Close() // nolint:errcheck
 
     logger := logrus.New()
     logger.SetOutput(io.Discard)
@@ -86,7 +86,7 @@ func TestGetUserBalanceNoFound(t *testing.T) {
 func TestUpdateBalance(t *testing.T) {
     db, mock, err := sqlmock.New()
     require.NoError(t, err)
-    defer db.Close()
+    defer db.Close() // nolint:errcheck
 
     r := &WalletRepository{
         DB: sqlx.NewDb(db, "sqlmock"),
@@ -118,7 +118,7 @@ func TestUpdateBalance(t *testing.T) {
 func TestUpdateBalance_Error(t *testing.T) {
     db, mock, err := sqlmock.New()
     require.NoError(t, err)
-    defer db.Close()
+    defer db.Close() // nolint:errcheck
 
     logger := logrus.New()
     logger.SetOutput(io.Discard)

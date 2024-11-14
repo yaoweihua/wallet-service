@@ -11,9 +11,9 @@ package service
 import (
     "context"
     "fmt"
-    "log"
     "sync"
     "github.com/yaoweihua/wallet-service/repository"
+    "github.com/yaoweihua/wallet-service/utils"
     "github.com/shopspring/decimal"
     "github.com/go-redis/redis/v8"
     "github.com/jmoiron/sqlx"
@@ -26,6 +26,8 @@ var transferLocks sync.Map
 // Use global locks to prevent concurrent access to the balance of the same user
 var userLocks sync.Map
 
+// DepositService provides methods for handling deposit operations.
+// It interacts with the WalletRepository and TransactionRepository to manage user balances and transaction records.
 type DepositService struct {
     walletRepo      *repository.WalletRepository
     transactionRepo *repository.TransactionRepository
@@ -33,6 +35,8 @@ type DepositService struct {
     redisClient     *redis.Client
 }
 
+// NewDepositService creates a new instance of DepositService.
+// It initializes the service with the provided database connection and Redis client.
 func NewDepositService(dbConn *sqlx.DB, redisClient *redis.Client) *DepositService {
     walletRepo := repository.NewWalletRepository(dbConn)
     transactionRepo := repository.NewTransactionRepository(dbConn)
@@ -45,17 +49,26 @@ func NewDepositService(dbConn *sqlx.DB, redisClient *redis.Client) *DepositServi
     }
 }
 
-// The Deposit function is responsible for handling the deposit logic
+// Deposit function is responsible for handling the deposit logic
 func (s *DepositService) Deposit(userID int, amount decimal.Decimal) error {
     // Acquire the user lock to prevent concurrent conflicts
-    lock, _ := userLocks.LoadOrStore(userID, &sync.Mutex{})
-    userLock := lock.(*sync.Mutex)
+    logger := utils.GetLogger()
+    lock, ok := userLocks.LoadOrStore(userID, &sync.Mutex{})
+    if !ok {
+        logger.Warnf("Lock for user %d was newly created", userID)
+    }
+
+    userLock, ok := lock.(*sync.Mutex)
+    if !ok {
+        return fmt.Errorf("failed to assert lock as *sync.Mutex for user %d", userID)
+    }
+
     userLock.Lock()
     defer userLock.Unlock()
 
     // Check whether the deposit amount is reasonable
     if amount.LessThanOrEqual(decimal.Zero) {
-        return fmt.Errorf("deposit amount must be greater than zero")
+        return fmt.Errorf("Deposit amount must be greater than zero")
     }
 
     // Begin the database transaction
@@ -65,7 +78,13 @@ func (s *DepositService) Deposit(userID int, amount decimal.Decimal) error {
     if err != nil {
         return fmt.Errorf("failed to start transaction: %w", err)
     }
-    defer tx.Rollback()
+
+    defer func() {
+        if rErr := tx.Rollback(); rErr != nil && err == nil {
+            // Only log rollback error if the original error is nil (i.e., the function hasn't failed yet)
+            logger.Warnf("rollback transaction: %v", rErr)
+        }
+    }()
 
     // Query the current balance of the user, and use row-level locks to ensure the consistency of the balance
     user, err := s.walletRepo.GetUserBalance(ctx, userID)
@@ -93,7 +112,7 @@ func (s *DepositService) Deposit(userID int, amount decimal.Decimal) error {
     cacheKey := fmt.Sprintf("balance:%d", userID)
     if s.redisClient != nil {
         if err := s.redisClient.Set(ctx, cacheKey, newBalance.String(), time.Second*3600); err != nil {
-            log.Printf("Warning: failed to cache balance: %v", err)
+            logger.Warnf("Warning: failed to cache balance: %v", err)
         }        
     }
     return nil

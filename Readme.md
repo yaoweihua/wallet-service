@@ -211,8 +211,9 @@ The base route for the API is `/api/v1`. Here are some of the main API routes:
 - Request:  http://localhost:8080/v1/wallet/transfer
     ```json
     {
-        "user_id": 1,
-        "amount":  1.50
+        "from_user_id": 1,
+        "to_user_id": 2,
+        "amount":  2.05
     }
     ```
 - Response:

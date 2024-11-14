@@ -16,7 +16,7 @@ import (
 func TestRecordTransaction(t *testing.T) {
     db, mock, err := sqlmock.New()
     require.NoError(t, err)
-    defer db.Close()
+    defer db.Close() // nolint:errcheck
 
     txRepo := &TransactionRepository{
         DB:     sqlx.NewDb(db, "sqlmock"),
@@ -65,7 +65,7 @@ func TestRecordTransaction(t *testing.T) {
 func TestGetTransactions(t *testing.T) {
     db, mock, err := sqlmock.New()
     require.NoError(t, err)
-    defer db.Close()
+    defer db.Close() // nolint:errcheck
 
     sqlxDB := sqlx.NewDb(db, "postgres")
 
@@ -95,7 +95,7 @@ func TestGetTransactions(t *testing.T) {
 func TestRecordTransactionError(t *testing.T) {
     db, mock, err := sqlmock.New()
     require.NoError(t, err)
-    defer db.Close()
+    defer db.Close() // nolint:errcheck
 
     logger := logrus.New()
     logger.SetOutput(io.Discard)
@@ -147,7 +147,7 @@ func TestRecordTransactionError(t *testing.T) {
 func TestGetTransactionsNoFound(t *testing.T) {
     db, mock, err := sqlmock.New()
     require.NoError(t, err)
-    defer db.Close()
+    defer db.Close() // nolint:errcheck
 
     sqlxDB := sqlx.NewDb(db, "postgres")
 

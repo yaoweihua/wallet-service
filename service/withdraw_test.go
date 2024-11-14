@@ -14,10 +14,10 @@ import (
 func TestWithdrawService_Withdraw_Success(t *testing.T) {
     db, mock, err := sqlmock.New()
     require.NoError(t, err)
-    defer db.Close()
+    defer db.Close() // nolint:errcheck
 
     redisClient, mockRedis := redismock.NewClientMock()
-    defer redisClient.Close()
+    defer redisClient.Close() // nolint:errcheck
 
     // Set the Redis operation expectations
     mockRedis.ExpectSet("balance:1", "100", time.Second*3600).SetVal("")
@@ -59,10 +59,10 @@ func TestWithdrawService_Withdraw_Success(t *testing.T) {
 func TestWithdrawService_Withdraw_InsufficientBalance(t *testing.T) {
     db, mock, err := sqlmock.New()
     require.NoError(t, err)
-    defer db.Close()
+    defer db.Close() // nolint:errcheck
 
     redisClient, mockRedis := redismock.NewClientMock()
-    defer redisClient.Close()
+    defer redisClient.Close() // nolint:errcheck
 
     withdrawService := NewWithdrawService(sqlx.NewDb(db, "sqlmock"), redisClient)
 
@@ -77,7 +77,7 @@ func TestWithdrawService_Withdraw_InsufficientBalance(t *testing.T) {
     err = withdrawService.Withdraw(1, decimal.NewFromInt(50))
 
     require.Error(t, err)
-    require.Equal(t, "insufficient balance", err.Error())
+    require.Equal(t, "Insufficient balance", err.Error())
 
     // Check whether the expectations have not been triggered
     err = mock.ExpectationsWereMet()
@@ -91,10 +91,10 @@ func TestWithdrawService_Withdraw_InsufficientBalance(t *testing.T) {
 func TestWithdrawService_Withdraw_InvalidAmount(t *testing.T) {
     db, mock, err := sqlmock.New()
     require.NoError(t, err)
-    defer db.Close()
+    defer db.Close() // nolint:errcheck
 
     redisClient, mockRedis := redismock.NewClientMock()
-    defer redisClient.Close()
+    defer redisClient.Close() // nolint:errcheck
 
     withdrawService := NewWithdrawService(sqlx.NewDb(db, "sqlmock"), redisClient)
 
@@ -109,7 +109,7 @@ func TestWithdrawService_Withdraw_InvalidAmount(t *testing.T) {
             err := withdrawService.Withdraw(1, amount)
 
             require.Error(t, err)
-            require.Equal(t, "withdraw amount must be greater than zero", err.Error())
+            require.Equal(t, "Withdraw amount must be greater than zero", err.Error())
 
             // Check whether the database expectations have not been triggered
             err = mock.ExpectationsWereMet()

@@ -11,12 +11,12 @@ CREATE TABLE IF NOT EXISTS users (
     status VARCHAR(20) NOT NULL CHECK (status IN ('active', 'inactive', 'suspended'))
 );
 
-INSERT INTO users (name, email, phone, balance, status) 
-VALUES ('Alice', 'alice@example.com', '13300000001', 10.05, 'active');
-INSERT INTO users (name, email, phone, balance, status) 
-VALUES ('Bob', 'bob@example.com', '13300000002', 50.35, 'active');
-INSERT INTO users (name, email, phone, balance, status) 
-VALUES ('John', 'john@example.com', '13300000003', 70.05, 'active');
+INSERT INTO users (id, name, email, phone, balance, status) 
+VALUES (1, 'Alice', 'alice@example.com', '13300000001', 10.05, 'active');
+INSERT INTO users (id, name, email, phone, balance, status) 
+VALUES (2, 'Bob', 'bob@example.com', '13300000002', 50.35, 'active');
+INSERT INTO users (id, name, email, phone, balance, status) 
+VALUES (3, 'John', 'john@example.com', '13300000003', 70.55, 'active');
 
 CREATE TABLE IF NOT EXISTS transactions (
     id SERIAL PRIMARY KEY,

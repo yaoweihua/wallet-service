@@ -8,6 +8,9 @@ import (
     "github.com/shopspring/decimal"
 )
 
+// Transaction represents a financial transaction between users,
+// including details such as the transaction ID, type, amount, status,
+// and payment method. It supports deposit, withdrawal, and transfer types.
 type Transaction struct {
     ID               int             `json:"id" db:"id"`                                // Transaction ID
     FromUserID       int             `json:"from_user_id" db:"from_user_id"`            // The user ID of the transaction initiator

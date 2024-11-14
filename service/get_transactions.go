@@ -8,11 +8,15 @@ import (
     "github.com/jmoiron/sqlx"
 )
 
+// TransactionService provides methods for managing transactions.
+// It interacts with the TransactionRepository to handle transaction-related operations.
 type TransactionService struct {
     transactionRepo *repository.TransactionRepository
     dbConn          *sqlx.DB
 }
 
+// NewTransactionService creates a new instance of TransactionService with the provided database connection.
+// It initializes the service with a TransactionRepository to handle transaction-related database operations.
 func NewTransactionService(dbConn *sqlx.DB) *TransactionService {
     transactionRepo := repository.NewTransactionRepository(dbConn)
 
