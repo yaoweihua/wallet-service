@@ -1,6 +1,6 @@
 // Package config provides configuration structures and functions
 // for loading and managing application settings, such as database
-// connections and environment-specific variables.
+// connections and environment-specific variables by William, way1910@gmail.com..
 package config
 
 import (

@@ -1,5 +1,5 @@
 // Package model contains data structures representing core domain entities,
-// such as transactions and users, used throughout the wallet service.
+// such as transactions and users, used throughout the wallet service by William, way1910@gmail.com..
 package model
 
 import (

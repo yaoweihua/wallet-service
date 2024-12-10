@@ -15,6 +15,7 @@ services:
     networks:
       - wallet_network
 
+
   redis:
     image: redis:latest
     environment:

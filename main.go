@@ -1,4 +1,4 @@
-// main.go
+// main.go by William, way1910@gmail.com.
 package main
 
 import (

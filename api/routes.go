@@ -1,6 +1,6 @@
 // Package api provides the HTTP handlers and routes for the wallet service,
 // including the logic for interacting with users' wallets, processing transactions,
-// and managing requests related to deposits, withdrawals, and transfers.
+// and managing requests related to deposits, withdrawals, and transfers by William, way1910@gmail.com.
 package api
 
 import (

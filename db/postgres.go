@@ -1,7 +1,7 @@
 // Package db provides database connection utilities and functions for 
 // interacting with PostgreSQL and Redis. It includes connection pooling,
 // configuration management, and automatic reconnection handling to 
-// ensure reliable database access across the wallet service.
+// ensure reliable database access across the wallet service by William, way1910@gmail.com..
 package db
 
 import (

@@ -1,7 +1,7 @@
 // Package handler contains the HTTP request handlers for the wallet service.
 // It includes functions for processing user requests, interacting with
 // the service layer, and returning appropriate responses for wallet operations 
-// such as deposits, withdrawals, and transfers.
+// such as deposits, withdrawals, and transfers by William, way1910@gmail.com..
 package handler
 
 import (

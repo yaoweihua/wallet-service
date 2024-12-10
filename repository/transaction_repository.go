@@ -1,6 +1,6 @@
 // Package repository provides the data access layer for interacting with the
 // database. It includes functions for performing CRUD operations on the
-// wallet service's core entities such as users, transactions, and balances.
+// wallet service's core entities such as users, transactions, and balances by William, way1910@gmail.com..
 package repository
 
 import (

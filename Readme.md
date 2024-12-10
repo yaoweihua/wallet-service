@@ -1,6 +1,6 @@
 # Wallet Service
 
-A simple wallet service API that supports user account management, balance query, deposits, withdrawals, and transfers. This project is written in Go and uses PostgreSQL and Redis for data storage and caching. It provides RESTful API interfaces along with tests.
+A simple wallet service API that supports user account management, balance query, deposits, withdrawals, and transfers. This project is written in Go and uses PostgreSQL and Redis for data storage and caching. It provides RESTful API interfaces along with tests by William, way1910@gmail.com.
 
 ## Table of Contents
 - [Project Structure](#project-structure)

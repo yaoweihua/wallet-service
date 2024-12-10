@@ -14,7 +14,7 @@ import (
     "encoding/json"
 )
 
-// isE2ETest checks if E2E_TEST environment variable is set to "true"
+// isE2ETest checks if E2E_TEST environment variable is set to "true" by William, way1910@gmail.com.
 func isE2ETest() bool {
     return os.Getenv("E2E_TEST") == "true"
 }
